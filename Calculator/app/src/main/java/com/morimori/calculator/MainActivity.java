@@ -1,23 +1,26 @@
 package com.morimori.calculator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.text.Editable;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
-
-public class MainActivity extends AppCompatActivity implements TextWatcher
+public class MainActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener
 {
 	private EditText numberInput1;
 	private EditText numberInput2;
 	private Spinner operatorSelector;
 	private TextView calcResult;
+
+	private static final int REQUEST_CODE_ANOTHOR_CALC_1 = 1;
+	private static final int REQUEST_CODE_ANOTHOR_CALC_2 = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher
 
 		operatorSelector = (Spinner)findViewById(R.id.operatorSelector);
 		calcResult = (TextView)findViewById(R.id.calcResult);
+
+		findViewById(R.id.calcButton1).setOnClickListener(this);
+		findViewById(R.id.calcButton2).setOnClickListener(this);
+		findViewById(R.id.nextButton).setOnClickListener(this);
 	}
 
 	private boolean checkEditTextInput()
@@ -86,6 +93,27 @@ public class MainActivity extends AppCompatActivity implements TextWatcher
 			default:
 				throw new RuntimeException();
 
+		}
+
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		int id = v.getId();
+
+		switch (id)
+		{
+			case R.id.calcButton1:
+				Intent intent1 = new Intent(this, AnothorCalcActivity.class);
+				startActivityForResult(intent1, REQUEST_CODE_ANOTHOR_CALC_1);
+				break;
+			case R.id.calcButton2:
+				Intent intent2 = new Intent(this, AnothorCalcActivity.class);
+				startActivityForResult(intent2, REQUEST_CODE_ANOTHOR_CALC_2);
+				break;
+			case R.id.nextButton:
+				break;
 		}
 
 	}
