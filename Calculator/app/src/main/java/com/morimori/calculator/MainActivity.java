@@ -92,9 +92,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, View
 
 			default:
 				throw new RuntimeException();
-
 		}
-
 	}
 
 	@Override
@@ -113,9 +111,36 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, View
 				startActivityForResult(intent2, REQUEST_CODE_ANOTHOR_CALC_2);
 				break;
 			case R.id.nextButton:
+				if (checkEditTextInput())
+				{
+					int result = calc();
+					 numberInput1.setText(String.valueOf(result));
+					refreshResult();
+				}
 				break;
 		}
+	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (resultCode != RESULT_OK) return;
+
+		Bundle resultBundle = data.getExtras();
+
+		if (!resultBundle.containsKey("result")) return;
+
+		int result = resultBundle.getInt("result");
+
+		if (resultCode == REQUEST_CODE_ANOTHOR_CALC_1)
+		{
+			numberInput1.setText(String.valueOf(result));
+		}
+		else if (resultCode == REQUEST_CODE_ANOTHOR_CALC_2)
+		{
+			numberInput2.setText(String.valueOf(result));
+		}
+		refreshResult();
 	}
 
 	@Override
